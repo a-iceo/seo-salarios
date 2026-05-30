@@ -55,12 +55,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <span className="logo-icon" aria-hidden="true">◈</span>
               <span className="logo-text">SalaryGlobal</span>
             </a>
-            <nav className="header-nav" aria-label="Main navigation">
-              <a href="/en/software-engineer-salary-san-francisco">🇺🇸 US</a>
-              <a href="/es/sueldo-ingeniero-de-software-madrid">🇪🇸 ES</a>
-              <a href="/fr/salaire-ingenieur-logiciel-paris">🇫🇷 FR</a>
-              <a href="/de/gehalt-softwareingenieur-berlin">🇩🇪 DE</a>
-            </nav>
+
           </div>
         </header>
 
