@@ -464,8 +464,20 @@ export default function SalaryPage({ params }: PageProps) {
                   Formato recomendado: Display Banner Medium Rectangle
                   ══════════════════════════════════════════════ */}
               <div className="ad-slot" style={{ minHeight: '250px' }} aria-label="Advertisement">
-                {/* ADSTERRA SIDEBAR 300×250 — PEGA TU SCRIPT AQUÍ */}
-                <span>[ Adsterra 300×250 ]</span>
+                <script 
+                  dangerouslySetInnerHTML={{ 
+                    __html: `
+                      atOptions = { 
+                        'key' : '5adeb6af9a6a7ba28d763190d9b0ca54', 
+                        'format' : 'iframe', 
+                        'height' : 250, 
+                        'width' : 300, 
+                        'params' : {} 
+                      }; 
+                    `
+                  }} 
+                />
+                <script src="https://www.highperformanceformat.com/5adeb6af9a6a7ba28d763190d9b0ca54/invoke.js"></script>
               </div>
 
               {/* Related professions */}
