@@ -4,6 +4,7 @@
 // Performance optimizado: fuentes locales, CSS mínimo, sin JS innecesario
 
 import type { Metadata } from 'next';
+import Script from 'next/script';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -53,6 +54,24 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
       </head>
       <body>
+        {/* Google Analytics 4 — Optimizado para rendimiento con Next.js Script */}
+        <Script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-VX0ZP4CX9M"
+          strategy="afterInteractive"
+        />
+        <Script
+          id="google-analytics"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-VX0ZP4CX9M');
+            `,
+          }}
+        />
         <header className="site-header">
           <div className="container header-inner">
             <a href="/" className="logo" aria-label="SalaryGlobal Home">
