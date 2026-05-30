@@ -46,6 +46,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             Inserta aquí los scripts de verificación de
             Adsterra (meta tag o JS snippet del publisher)
             ══════════════════════════════════════════════════ */}
+        <script src="https://pl29586765.effectivecpmnetwork.com/d3/01/12/d3011237f080ff6e810a223504964ec6.js"></script>
 
       </head>
       <body>

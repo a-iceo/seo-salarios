@@ -334,9 +334,8 @@ export default function SalaryPage({ params }: PageProps) {
                   Adsterra para el formato "Display Banner"
                   ══════════════════════════════════════════════ */}
               <div className="ad-slot" aria-label="Advertisement" role="complementary">
-                {/* ADSTERRA BANNER 728×90 — PEGA TU SCRIPT AQUÍ */}
-                {/* Ejemplo: <script async src="//cdn.adsterra.com/..."></script> */}
-                <span>[ Adsterra Banner 728×90 ]</span>
+                <script async data-cfasync="false" src="https://pl29586608.effectivecpmnetwork.com/9ad83968d1a5de1d4cd0a770472ee7c9/invoke.js"></script>
+                <div id="container-9ad83968d1a5de1d4cd0a770472ee7c9"></div>
               </div>
 
               {/* Cost Breakdown */}
