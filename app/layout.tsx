@@ -53,15 +53,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
         {/* ══════════════════════════════════════════════════
             ADCASH — Librería principal
-            Debe cargar ANTES del AutoTag
+            CDN oficial: acscdn.com
+            Debe ir lo más alto posible en el head
             ══════════════════════════════════════════════════ */}
         <Script
-          src="https://static.adcash.com/js/aclib.js"
+          id="aclib"
+          src="//acscdn.com/script/aclib.js"
           strategy="afterInteractive"
         />
+
       </head>
 
       <body>
+
         {/* Google Analytics 4 */}
         <Script
           async
@@ -110,8 +114,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
         {/* ══════════════════════════════════════════════════
             ADCASH AUTOTAG — Antes del cierre de body
-            Activa automáticamente el mejor formato
-            según GEO y dispositivo del visitante
+            zoneId correcto desde panel Adcash
+            Activa el mejor formato según GEO y dispositivo
             ══════════════════════════════════════════════════ */}
         <Script
           id="adcash-autotag"
@@ -119,7 +123,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           dangerouslySetInnerHTML={{
             __html: `
               aclib.runAutoTag({
-                zoneId: 'zp7ms03apl',
+                zoneId: '5d3gampjfe',
               });
             `,
           }}
