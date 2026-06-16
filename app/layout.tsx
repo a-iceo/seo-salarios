@@ -2,7 +2,6 @@
 // Layout raíz — Next.js 14 App Router
 // Diseño corporativo: blanco, azul marino (#0F2044), gris
 // Performance optimizado: fuentes locales, CSS mínimo, sin JS innecesario
-
 import type { Metadata } from 'next';
 import Script from 'next/script';
 import './globals.css';
@@ -39,22 +38,31 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* Preconnect para performance */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        {/* Google Fonts — IBM Plex Sans: profesional, legible, rápido */}
+
+        {/* Google Fonts — IBM Plex Sans */}
         <link
           href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap"
           rel="stylesheet"
         />
 
-        {/* ══════════════════════════════════════════════════
-            ESPACIO PARA SCRIPTS DE ADSTERRA — HEAD
-            Inserta aquí los scripts de verificación de
-            Adsterra (meta tag o JS snippet del publisher)
-            ══════════════════════════════════════════════════ */}
-        <script src="https://pl29586765.effectivecpmnetwork.com/d3/01/12/d3011237f080ff6e810a223504964ec6.js"></script>
+        {/* Adsterra Social Bar */}
+        <Script
+          src="https://pl29586765.effectivecpmnetwork.com/d3/01/12/d3011237f080ff6e810a223504964ec6.js"
+          strategy="afterInteractive"
+        />
 
+        {/* ══════════════════════════════════════════════════
+            ADCASH — Librería principal
+            Debe cargar ANTES del AutoTag
+            ══════════════════════════════════════════════════ */}
+        <Script
+          src="https://static.adcash.com/js/aclib.js"
+          strategy="afterInteractive"
+        />
       </head>
+
       <body>
-        {/* Google Analytics 4 — Optimizado para rendimiento con Next.js Script */}
+        {/* Google Analytics 4 */}
         <Script
           async
           src="https://www.googletagmanager.com/gtag/js?id=G-VX0ZP4CX9M"
@@ -72,13 +80,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             `,
           }}
         />
+
         <header className="site-header">
           <div className="container header-inner">
             <a href="/" className="logo" aria-label="SalaryGlobal Home">
               <span className="logo-icon" aria-hidden="true">◈</span>
               <span className="logo-text">SalaryGlobal</span>
             </a>
-
           </div>
         </header>
 
@@ -99,6 +107,24 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </div>
           </div>
         </footer>
+
+        {/* ══════════════════════════════════════════════════
+            ADCASH AUTOTAG — Antes del cierre de body
+            Activa automáticamente el mejor formato
+            según GEO y dispositivo del visitante
+            ══════════════════════════════════════════════════ */}
+        <Script
+          id="adcash-autotag"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              aclib.runAutoTag({
+                zoneId: 'zp7ms03apl',
+              });
+            `,
+          }}
+        />
+
       </body>
     </html>
   );
