@@ -334,16 +334,6 @@ export default function SalaryPage({ params }: PageProps) {
                 </div>
               </div>
 
-              {/* ══════════════════════════════════════════════
-                  ESPACIO PARA ANUNCIO ADSTERRA — BANNER 728×90
-                  Reemplaza el div .ad-slot con tu script de
-                  Adsterra para el formato "Display Banner"
-                  ══════════════════════════════════════════════ */}
-              <div className="ad-slot" aria-label="Advertisement" role="complementary">
-                <script async data-cfasync="false" src="https://pl29586608.effectivecpmnetwork.com/9ad83968d1a5de1d4cd0a770472ee7c9/invoke.js"></script>
-                <div id="container-9ad83968d1a5de1d4cd0a770472ee7c9"></div>
-              </div>
-
               {/* Cost Breakdown */}
               <div className="card" style={{ marginTop: 'var(--gap)' }}>
                 <p className="card-title">{ui.monthlyExpenses} — {cityName}</p>
@@ -390,15 +380,6 @@ export default function SalaryPage({ params }: PageProps) {
                     })}
                   </tbody>
                 </table>
-              </div>
-
-              {/* ══════════════════════════════════════════════
-                  ESPACIO PARA ANUNCIO ADSTERRA — IN-ARTICLE
-                  Formato recomendado: Native Banner o Social Bar
-                  ══════════════════════════════════════════════ */}
-              <div className="ad-slot" style={{ marginTop: 'var(--gap)', minHeight: '90px' }} aria-label="Advertisement">
-                {/* ADSTERRA IN-ARTICLE / NATIVE — PEGA TU SCRIPT AQUÍ */}
-                <span>[ Adsterra Native / In-Article ]</span>
               </div>
 
               {/* Same Profession in Other Cities */}
@@ -464,27 +445,6 @@ export default function SalaryPage({ params }: PageProps) {
                 </div>
               </div>
 
-              {/* ══════════════════════════════════════════════
-                  ESPACIO PARA ANUNCIO ADSTERRA — SIDEBAR 300×250
-                  Formato recomendado: Display Banner Medium Rectangle
-                  ══════════════════════════════════════════════ */}
-              <div className="ad-slot" style={{ minHeight: '250px' }} aria-label="Advertisement">
-                <script 
-                  dangerouslySetInnerHTML={{ 
-                    __html: `
-                      atOptions = { 
-                        'key' : '5adeb6af9a6a7ba28d763190d9b0ca54', 
-                        'format' : 'iframe', 
-                        'height' : 250, 
-                        'width' : 300, 
-                        'params' : {} 
-                      }; 
-                    `
-                  }} 
-                />
-                <script src="https://www.highperformanceformat.com/5adeb6af9a6a7ba28d763190d9b0ca54/invoke.js"></script>
-              </div>
-
               {/* Related professions */}
               <div className="card">
                 <p className="card-title">{lang === 'es' ? 'Profesiones Similares' : lang === 'fr' ? 'Professions Similaires' : lang === 'de' ? 'Ähnliche Berufe' : 'Related Professions'}</p>
@@ -521,14 +481,6 @@ export default function SalaryPage({ params }: PageProps) {
                 </div>
               </div>
 
-              {/* ══════════════════════════════════════════════
-                  ESPACIO PARA ANUNCIO ADSTERRA — STICKY SIDEBAR
-                  Formato recomendado: Social Bar o Push Notifications
-                  ══════════════════════════════════════════════ */}
-              <div className="ad-slot" style={{ minHeight: '120px' }} aria-label="Advertisement">
-                {/* ADSTERRA SOCIAL BAR / PUSH — PEGA TU SCRIPT AQUÍ */}
-                <span>[ Adsterra Social Bar ]</span>
-              </div>
 
               {/* Languages */}
               <div className="card">

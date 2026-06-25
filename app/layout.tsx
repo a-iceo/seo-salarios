@@ -3,7 +3,6 @@
 // Diseño corporativo: blanco, azul marino (#0F2044), gris
 // Performance optimizado: fuentes locales, CSS mínimo, sin JS innecesario
 import type { Metadata } from 'next';
-import Script from 'next/script';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -44,24 +43,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap"
           rel="stylesheet"
         />
-
-        {/* Adsterra Social Bar */}
-        <Script
-          src="https://pl29586765.effectivecpmnetwork.com/d3/01/12/d3011237f080ff6e810a223504964ec6.js"
-          strategy="afterInteractive"
-        />
-
-        {/* ══════════════════════════════════════════════════
-            ADCASH — Librería principal
-            CDN oficial: acscdn.com
-            Debe ir lo más alto posible en el head
-            ══════════════════════════════════════════════════ */}
-        <Script
-          id="aclib"
-          src="//acscdn.com/script/aclib.js"
-          strategy="afterInteractive"
-        />
-
       </head>
 
       <body>
@@ -111,23 +92,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </div>
           </div>
         </footer>
-
-        {/* ══════════════════════════════════════════════════
-            ADCASH AUTOTAG — Antes del cierre de body
-            zoneId correcto desde panel Adcash
-            Activa el mejor formato según GEO y dispositivo
-            ══════════════════════════════════════════════════ */}
-        <Script
-          id="adcash-autotag"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-              aclib.runAutoTag({
-                zoneId: '5d3gampjfe',
-              });
-            `,
-          }}
-        />
 
       </body>
     </html>
