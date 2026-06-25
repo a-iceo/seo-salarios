@@ -3,6 +3,7 @@
 // Diseño corporativo: blanco, azul marino (#0F2044), gris
 // Performance optimizado: fuentes locales, CSS mínimo, sin JS innecesario
 import type { Metadata } from 'next';
+import Script from 'next/script';
 import './globals.css';
 
 export const metadata: Metadata = {
