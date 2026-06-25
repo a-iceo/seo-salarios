@@ -19,9 +19,6 @@ dist/
 *.swp
 *.swo
 
-# Content generated
-content/
-
 # Logs
 *.log
 npm-debug.log*
