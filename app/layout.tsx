@@ -87,8 +87,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               © {new Date().getFullYear()} SalaryGlobal. Data for informational purposes only.
             </p>
             <div className="footer-links">
-              <a href="/en/about">About</a>
-              <a href="/en/methodology">Methodology</a>
+              <a href="/about">About</a>
+              <a href="/privacy">Privacy Policy</a>
+              <a href="/terms">Terms of Service</a>
               <a href="/sitemap.xml">Sitemap</a>
             </div>
           </div>
