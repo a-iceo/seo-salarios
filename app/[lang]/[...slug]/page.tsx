@@ -14,6 +14,7 @@ import {
   calculateSalaryData,
   type Lang,
 } from '../../../lib/config';
+import { getPageContent } from '../../../lib/getPageContent';
 
 // ─── ISR: regeneración incremental cada 7 días ────────────
 export const revalidate = 604800;
@@ -196,6 +197,9 @@ export default function SalaryPage({ params }: PageProps) {
   const countryName = data.city.country[validLang];
   const expName = data.experience.names[validLang];
   const year = new Date().getFullYear();
+
+  // Obtener contenido generado (si existe)
+  const pageContent = getPageContent(validLang, professionSlug!, citySlug!);
 
   // Multiplicador local de moneda (aproximado)
   const currencyMultipliers: Record<string, number> = {
@@ -421,6 +425,18 @@ export default function SalaryPage({ params }: PageProps) {
               </div>
 
               <p className="disclaimer">{ui.disclaimer}</p>
+
+              {/* Contenido generado para AdSense */}
+              {pageContent && (
+                <div className="card" style={{ marginTop: 'var(--gap)' }}>
+                  <p className="card-title">
+                    {validLang === 'es' ? 'Mercado Laboral' : 'Job Market Overview'}
+                  </p>
+                  <p style={{ lineHeight: 1.7, color: 'var(--gray-600)' }}>
+                    {pageContent.content}
+                  </p>
+                </div>
+              )}
             </div>
 
             {/* ─── SIDEBAR ─────────────────────────────── */}
