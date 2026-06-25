@@ -94,18 +94,24 @@ function parseSlug(slugParts: string[]): {
 }
 
 // ─── GENERATE STATIC PARAMS ──────────────────────────────
-// Genera combinaciones de idioma × profesión × ciudad
-// (subset estático; el resto se genera on-demand con ISR)
+// Genera TODAS las combinaciones de idioma × profesión × ciudad × experiencia
 export async function generateStaticParams() {
   const params: { lang: string; slug: string[] }[] = [];
-  const profKeys = Object.keys(PROFESSIONS).slice(0, 8); // top 8 profesiones
-  const cityKeys = Object.keys(CITIES).slice(0, 10);    // top 10 ciudades
+  const profKeys = Object.keys(PROFESSIONS);
+  const cityKeys = Object.keys(CITIES);
+  const expKeys = Object.keys(EXPERIENCE_LEVELS);
 
   for (const lang of SUPPORTED_LANGS) {
     for (const prof of profKeys) {
       for (const city of cityKeys) {
+        // Agregar versión sin experiencia (mid-level implícito)
         params.push({ lang, slug: [prof, city] });
-        params.push({ lang, slug: [prof, city, 'senior'] });
+        // Agregar versiones con experiencia
+        for (const exp of expKeys) {
+          if (exp !== 'mid-level') {
+            params.push({ lang, slug: [prof, city, exp] });
+          }
+        }
       }
     }
   }
