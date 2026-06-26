@@ -1,30 +1,12 @@
 #!/usr/bin/env python3
 import os
-import json
 import argparse
 from groq import Groq
 from time import sleep
 from datetime import datetime, timedelta
 
-# Load environment variables from .env file
-def load_env():
-    env_path = '.env'
-    if os.path.exists(env_path):
-        with open(env_path, 'r', encoding='utf-8') as f:
-            for line in f:
-                line = line.strip()
-                if line and not line.startswith('#') and '=' in line:
-                    key, value = line.split('=', 1)
-                    os.environ[key.strip()] = value.strip()
-
-load_env()
-
-# Initialize Groq client
-api_key = os.environ.get('GROQ_API_KEY')
-if not api_key:
-    raise ValueError("GROQ_API_KEY not found in environment variables or .env file")
-
-client = Groq(api_key=api_key)
+# Initialize Groq client just like generate_content.py does
+client = Groq(api_key=os.environ.get('GROQ_API_KEY'))
 
 # Blog topics
 BLOG_TOPICS = [
