@@ -76,6 +76,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <span className="logo-icon" aria-hidden="true">◈</span>
               <span className="logo-text">SalaryGlobal</span>
             </a>
+            <nav className="header-nav">
+              <a href="/blog">Blog</a>
+              <a href="/about">About</a>
+            </nav>
           </div>
         </header>
 
