@@ -36,34 +36,43 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
     // Handle links [text](url)
     html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
 
-    // Headers
-    html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>')
-    html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>')
-    html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>')
-
     // Bold and italic
-    html = html.replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>')
-    html = html.replace(/\*(.*?)\*/gim, '<em>$1</em>')
+    html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    html = html.replace(/\*(.*?)\*/g, '<em>$1</em>')
 
-    // Unordered lists (- item)
-    html = html.replace(/^- (.*$)/gim, '<li>$1</li>')
-    // Wrap lists
-    html = html.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>')
-
-    // Ordered lists (1. item)
-    html = html.replace(/^\d+\. (.*$)/gim, '<li>$1</li>')
-    html = html.replace(/(<li>.*<\/li>)/s, '<ol>$1</ol>')
-
-    // Paragraphs
-    html = html.split('\n\n').map((block, i) => {
+    // Process blocks separated by double newlines
+    const blocks = html.split('\n\n')
+    const processedBlocks = blocks.map(block => {
       if (!block.trim()) return ''
-      if (block.startsWith('<h') || block.startsWith('<ul') || block.startsWith('<ol')) {
-        return block
-      }
-      return `<p>${block}</p>`
-    }).join('')
 
-    return html
+      // Headers
+      if (block.startsWith('#')) {
+        if (block.startsWith('### ')) return `<h3>${block.slice(4)}</h3>`
+        if (block.startsWith('## ')) return `<h2>${block.slice(3)}</h2>`
+        if (block.startsWith('# ')) return `<h1>${block.slice(2)}</h1>`
+      }
+
+      // Unordered lists (- item)
+      const lines = block.split('\n')
+      if (lines.every(line => line.trim().startsWith('- '))) {
+        const items = lines.map(line => `<li>${line.trim().slice(2)}</li>`).join('')
+        return `<ul>${items}</ul>`
+      }
+
+      // Ordered lists (1. item)
+      if (lines.every(line => /^\d+\. /.test(line.trim()))) {
+        const items = lines.map(line => {
+          const match = line.trim().match(/^\d+\. (.*)$/)
+          return match ? `<li>${match[1]}</li>` : ''
+        }).join('')
+        return `<ol>${items}</ol>`
+      }
+
+      // Paragraph
+      return `<p>${block.trim()}</p>`
+    })
+
+    return processedBlocks.join('')
   }
 
   const jsonLd = {
