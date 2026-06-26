@@ -21,31 +21,65 @@ export function getAllBlogPosts(): BlogPost[] {
     const filePath = path.join(BLOG_DIR, slug)
     const fileContent = fs.readFileSync(filePath, 'utf8')
 
-    // Parse frontmatter
-    const frontmatterMatch = fileContent.match(/---([\s\S]*?)---/)
-    const frontmatter = frontmatterMatch ? frontmatterMatch[1] : ''
-    const content = fileContent.replace(/---[\s\S]*?---/, '').trim()
+    // Manual frontmatter parsing without complex regex
+    let frontmatter = ''
+    let content = ''
+    const lines = fileContent.split('\n')
+    let inFrontmatter = false
+    let frontmatterLines: string[] = []
 
-    const parseFrontmatter = (text: string) => {
-      const data: Partial<BlogPost> = {}
-      const lines = text.trim().split('\n')
-      lines.forEach(line => {
-        const [key, ...valueParts] = line.split(':')
-        if (key && valueParts.length > 0) {
-          data[key.trim()] = valueParts.join(':').trim().replace(/^["']|["']$/g, '')
+    for (const line of lines) {
+      if (line.trim() === '---') {
+        if (!inFrontmatter) {
+          inFrontmatter = true
+        } else {
+          inFrontmatter = false
         }
-      })
-      return data as Omit<BlogPost, 'slug' | 'content'>
+        continue
+      }
+      
+      if (inFrontmatter) {
+        frontmatterLines.push(line)
+      } else {
+        content += line + '\n'
+      }
     }
 
-    const metadata = parseFrontmatter(frontmatter)
+    // Parse frontmatter key-value pairs
+    const metadata: any = {}
+    for (const line of frontmatterLines) {
+      const trimmed = line.trim()
+      if (trimmed && trimmed.includes(':')) {
+        const colonIndex = trimmed.indexOf(':')
+        const key = trimmed.substring(0, colonIndex).trim()
+        let value = trimmed.substring(colonIndex + 1).trim()
+        // Remove quotes
+        if (value.startsWith('"') && value.endsWith('"') || value.startsWith("'") && value.endsWith("'")) {
+          value = value.substring(1, value.length - 1)
+        }
+        metadata[key] = value
+      }
+    }
+
+    // Default values
+    if (!metadata.title) metadata.title = slug.replace('.mdx', '')
+    if (!metadata.description) metadata.description = ''
+    if (!metadata.date) metadata.date = new Date().toISOString().split('T')[0]
+    if (!metadata.category) metadata.category = 'General'
 
     return {
       slug: slug.replace('.mdx', ''),
-      content,
-      ...metadata,
+      content: content.trim(),
+      title: metadata.title,
+      description: metadata.description,
+      date: metadata.date,
+      category: metadata.category,
     }
-  }).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+  }).sort((a, b) => {
+    const dateA = new Date(a.date).getTime()
+    const dateB = new Date(b.date).getTime()
+    return dateB - dateA
+  })
 
   return posts
 }
