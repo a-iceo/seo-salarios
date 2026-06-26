@@ -29,39 +29,13 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
   const post = getBlogPostBySlug(params.slug)
   if (!post) notFound()
 
-  // Simple MDX/Markdown renderer
+  // Simple renderer - just handle paragraphs
   const renderMarkdown = (content: string) => {
-    // First handle inline formatting
-    let html = content
-      // Links [text](url)
-      .replace(/\[([^\]]*)\]\(([^)]*)\)/g, '<a href="$2">$1</a>')
-      // Bold
-      .replace(/\*\*([^*]*)\*\*/g, '<strong>$1</strong>')
-      // Italic
-      .replace(/\*([^*]*)\*/g, '<em>$1</em>')
-
-    // Split into blocks
-    const blocks = html.split('\n\n')
-    const result: string[] = []
-
-    for (const block of blocks) {
-      const trimmed = block.trim()
-      if (!trimmed) continue
-
-      // Check for headers
-      if (trimmed.startsWith('### ')) {
-        result.push(`<h3>${trimmed.slice(4)}</h3>`)
-      } else if (trimmed.startsWith('## ')) {
-        result.push(`<h2>${trimmed.slice(3)}</h2>`)
-      } else if (trimmed.startsWith('# ')) {
-        result.push(`<h1>${trimmed.slice(2)}</h1>`)
-      } else {
-        // Treat as paragraph
-        result.push(`<p>${trimmed}</p>`)
-      }
-    }
-
-    return result.join('')
+    return content
+      .split('\n\n')
+      .filter(p => p.trim())
+      .map(p => `<p>${p.trim()}</p>`)
+      .join('')
   }
 
   const jsonLd = {
