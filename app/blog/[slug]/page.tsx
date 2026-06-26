@@ -22,26 +22,35 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
   const post = getBlogPostBySlug(params.slug)
   if (!post) notFound()
 
-  // Simple markdown to HTML
+  // Simple but reliable markdown to HTML render
   const renderContent = (text: string) => {
     let html = text
+    
+    // First, make sure we handle Windows/macOS line endings
+    html = html.replace(/\r\n/g, '\n')
+    
     // Headings
     html = html.replace(/^### (.*)$/gm, '<h3>$1</h3>')
     html = html.replace(/^## (.*)$/gm, '<h2>$1</h2>')
     html = html.replace(/^# (.*)$/gm, '<h1>$1</h1>')
+    
     // Bold
-    html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+    html = html.replace(/\*\*([^*]+?)\*\*/g, '<strong>$1</strong>')
+    
     // Links
     html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
-    // Paragraphs
-    const paragraphs = html.split('\n\n').filter(p => p.trim())
-    html = paragraphs.map(p => {
-      const trimmed = p.trim()
-      if (trimmed.startsWith('<h') || trimmed.startsWith('<table') || trimmed.startsWith('<div')) {
+    
+    // Paragraphs - split by double newlines
+    const parts = html.split('\n\n').filter(p => p.trim())
+    html = parts.map(part => {
+      const trimmed = part.trim()
+      // Skip wrapping for HTML blocks
+      if (trimmed.startsWith('<') && (trimmed.includes('<div') || trimmed.includes('<table') || trimmed.includes('<h'))) {
         return trimmed
       }
+      // Wrap everything else in paragraphs
       return `<p>${trimmed}</p>`
-    }).join('')
+    }).join('\n')
 
     return html
   }
