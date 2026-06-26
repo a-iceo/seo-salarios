@@ -3,6 +3,11 @@ import os
 import argparse
 from groq import Groq
 from time import sleep
+from dotenv import load_dotenv
+
+# Cargar variables de entorno desde archivos .env y .env.local
+load_dotenv('.env')
+load_dotenv('.env.local', override=True)
 
 # Initialize Groq client
 client = Groq(api_key=os.environ.get('GROQ_API_KEY'))
