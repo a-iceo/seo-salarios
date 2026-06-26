@@ -22,8 +22,7 @@ export function getAllBlogPosts(): BlogPost[] {
     const filePath = path.join(BLOG_DIR, slug)
     const fileContent = fs.readFileSync(filePath, 'utf8')
 
-    // Manual frontmatter parsing without complex regex
-    let frontmatter = ''
+    // Manual frontmatter parsing
     let content = ''
     const lines = fileContent.split('\n')
     let inFrontmatter = false
@@ -46,7 +45,7 @@ export function getAllBlogPosts(): BlogPost[] {
       }
     }
 
-    // Parse frontmatter key-value pairs
+    // Parse frontmatter
     const metadata: any = {}
     for (const line of frontmatterLines) {
       const trimmed = line.trim()
@@ -54,7 +53,6 @@ export function getAllBlogPosts(): BlogPost[] {
         const colonIndex = trimmed.indexOf(':')
         const key = trimmed.substring(0, colonIndex).trim()
         let value = trimmed.substring(colonIndex + 1).trim()
-        // Remove quotes
         if (value.startsWith('"') && value.endsWith('"') || value.startsWith("'") && value.endsWith("'")) {
           value = value.substring(1, value.length - 1)
         }
@@ -62,7 +60,7 @@ export function getAllBlogPosts(): BlogPost[] {
       }
     }
 
-    // Default values
+    // Defaults
     if (!metadata.title) metadata.title = slug.replace('.mdx', '')
     if (!metadata.description) metadata.description = ''
     if (!metadata.date) metadata.date = new Date().toISOString().split('T')[0]

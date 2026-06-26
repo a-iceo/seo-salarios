@@ -25,13 +25,36 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   }
 }
 
-export default function BlogPost({ params }: { params: { slug: string } }) {
+export default function BlogPost({ params }: { params: { slug: string }) {
   const post = getBlogPostBySlug(params.slug)
   if (!post) notFound()
 
-  // Render content with classes
+  // Simple markdown to HTML renderer
   const renderMarkdown = (content: string) => {
-    return `<div class="blog-content">${content}</div>`
+    let html = content
+
+    // Headings
+    html = html.replace(/^### (.*)$/gm, '<h3>$1</h3>')
+    html = html.replace(/^## (.*)$/gm, '<h2>$1</h2>')
+    html = html.replace(/^# (.*)$/gm, '<h1>$1</h1>')
+
+    // Bold
+    html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+
+    // Links
+    html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
+
+    // Paragraphs
+    const paragraphs = html.split('\n\n').filter(p => p.trim())
+    html = paragraphs.map(para => {
+      const trimmed = para.trim()
+      if (trimmed.startsWith('<h') || trimmed.startsWith('<table') || trimmed.startsWith('<div')) {
+        return trimmed
+      }
+      return `<p>${trimmed}</p>`
+    }).join('')
+
+    return html
   }
 
   const jsonLd = {
@@ -85,8 +108,8 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
               <a href="/en/software-engineer/new-york" className="badge badge-green">
                 Ingeniero de Software en NY
               </a>
-              <a href="/es/ingeniero-de-software/barcelona" className="badge badge-amber">
-                Ingeniero de Software en Barcelona
+              <a href="/es/software-engineer/madrid" className="badge badge-amber">
+                Ingeniero de Software en Madrid
               </a>
               <a href="/en/data-scientist/san-francisco" className="badge badge-navy">
                 Data Scientist en SF
