@@ -29,50 +29,39 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
   const post = getBlogPostBySlug(params.slug)
   if (!post) notFound()
 
-  // Improved MDX/Markdown renderer
+  // Simple MDX/Markdown renderer
   const renderMarkdown = (content: string) => {
+    // First handle inline formatting
     let html = content
+      // Links [text](url)
+      .replace(/\[([^\]]*)\]\(([^)]*)\)/g, '<a href="$2">$1</a>')
+      // Bold
+      .replace(/\*\*([^*]*)\*\*/g, '<strong>$1</strong>')
+      // Italic
+      .replace(/\*([^*]*)\*/g, '<em>$1</em>')
 
-    // Handle links [text](url)
-    html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
-
-    // Bold and italic
-    html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-    html = html.replace(/\*(.*?)\*/g, '<em>$1</em>')
-
-    // Process blocks separated by double newlines
+    // Split into blocks
     const blocks = html.split('\n\n')
-    const processedBlocks = blocks.map(block => {
-      if (!block.trim()) return ''
+    const result: string[] = []
 
-      // Headers
-      if (block.startsWith('#')) {
-        if (block.startsWith('### ')) return `<h3>${block.slice(4)}</h3>`
-        if (block.startsWith('## ')) return `<h2>${block.slice(3)}</h2>`
-        if (block.startsWith('# ')) return `<h1>${block.slice(2)}</h1>`
+    for (const block of blocks) {
+      const trimmed = block.trim()
+      if (!trimmed) continue
+
+      // Check for headers
+      if (trimmed.startsWith('### ')) {
+        result.push(`<h3>${trimmed.slice(4)}</h3>`)
+      } else if (trimmed.startsWith('## ')) {
+        result.push(`<h2>${trimmed.slice(3)}</h2>`)
+      } else if (trimmed.startsWith('# ')) {
+        result.push(`<h1>${trimmed.slice(2)}</h1>`)
+      } else {
+        // Treat as paragraph
+        result.push(`<p>${trimmed}</p>`)
       }
+    }
 
-      // Unordered lists (- item)
-      const lines = block.split('\n')
-      if (lines.every(line => line.trim().startsWith('- '))) {
-        const items = lines.map(line => `<li>${line.trim().slice(2)}</li>`).join('')
-        return `<ul>${items}</ul>`
-      }
-
-      // Ordered lists (1. item)
-      if (lines.every(line => /^\d+\. /.test(line.trim()))) {
-        const items = lines.map(line => {
-          const match = line.trim().match(/^\d+\. (.*)$/)
-          return match ? `<li>${match[1]}</li>` : ''
-        }).join('')
-        return `<ol>${items}</ol>`
-      }
-
-      // Paragraph
-      return `<p>${block.trim()}</p>`
-    })
-
-    return processedBlocks.join('')
+    return result.join('')
   }
 
   const jsonLd = {
