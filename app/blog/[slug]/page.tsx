@@ -12,42 +12,31 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   if (!post) {
     return { title: 'Artículo no encontrado' }
   }
-
   return {
     title: `${post.title} | SalaryGlobal`,
     description: post.description,
-    openGraph: {
-      title: post.title,
-      description: post.description,
-      type: 'article',
-      publishedTime: post.date,
-    },
   }
 }
 
-export default function BlogPost({ params }: { params: { slug: string }) {
+export default function BlogPost({ params }: { params: { slug: string } }) {
   const post = getBlogPostBySlug(params.slug)
   if (!post) notFound()
 
-  // Simple markdown to HTML renderer
-  const renderMarkdown = (content: string) => {
-    let html = content
-
+  // Simple markdown to HTML
+  const renderContent = (text: string) => {
+    let html = text
     // Headings
     html = html.replace(/^### (.*)$/gm, '<h3>$1</h3>')
     html = html.replace(/^## (.*)$/gm, '<h2>$1</h2>')
     html = html.replace(/^# (.*)$/gm, '<h1>$1</h1>')
-
     // Bold
     html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
-
     // Links
     html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
-
     // Paragraphs
     const paragraphs = html.split('\n\n').filter(p => p.trim())
-    html = paragraphs.map(para => {
-      const trimmed = para.trim()
+    html = paragraphs.map(p => {
+      const trimmed = p.trim()
       if (trimmed.startsWith('<h') || trimmed.startsWith('<table') || trimmed.startsWith('<div')) {
         return trimmed
       }
@@ -57,25 +46,8 @@ export default function BlogPost({ params }: { params: { slug: string }) {
     return html
   }
 
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'Article',
-    headline: post.title,
-    description: post.description,
-    datePublished: post.date,
-    publisher: {
-      '@type': 'Organization',
-      name: 'SalaryGlobal',
-    },
-  }
-
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
-
       <section className="hero">
         <div className="container">
           <nav className="breadcrumb" aria-label="Breadcrumb">
@@ -99,23 +71,8 @@ export default function BlogPost({ params }: { params: { slug: string }) {
       <div className="salary-page">
         <div className="container" style={{ maxWidth: '768px' }}>
           <article className="card blog-content" style={{ padding: '2rem' }}>
-            <div dangerouslySetInnerHTML={{ __html: renderMarkdown(post.content) }} />
+            <div dangerouslySetInnerHTML={{ __html: renderContent(post.content) }} />
           </article>
-
-          <div className="card" style={{ marginTop: 'var(--gap)' }}>
-            <p className="card-title">Explora salarios</p>
-            <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginTop: '1rem' }}>
-              <a href="/en/software-engineer/new-york" className="badge badge-green">
-                Ingeniero de Software en NY
-              </a>
-              <a href="/es/software-engineer/madrid" className="badge badge-amber">
-                Ingeniero de Software en Madrid
-              </a>
-              <a href="/en/data-scientist/san-francisco" className="badge badge-navy">
-                Data Scientist en SF
-              </a>
-            </div>
-          </div>
         </div>
       </div>
     </>
