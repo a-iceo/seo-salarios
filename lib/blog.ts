@@ -9,6 +9,7 @@ export interface BlogPost {
   description: string
   date: string
   category: string
+  readTime?: string
   content: string
 }
 
@@ -66,6 +67,7 @@ export function getAllBlogPosts(): BlogPost[] {
     if (!metadata.description) metadata.description = ''
     if (!metadata.date) metadata.date = new Date().toISOString().split('T')[0]
     if (!metadata.category) metadata.category = 'General'
+    if (!metadata.readTime) metadata.readTime = '5 min'
 
     return {
       slug: slug.replace('.mdx', ''),
@@ -74,6 +76,7 @@ export function getAllBlogPosts(): BlogPost[] {
       description: metadata.description,
       date: metadata.date,
       category: metadata.category,
+      readTime: metadata.readTime,
     }
   }).sort((a, b) => {
     const dateA = new Date(a.date).getTime()

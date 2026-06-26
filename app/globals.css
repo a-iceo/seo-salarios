@@ -551,6 +551,78 @@ a:hover { text-decoration: underline; }
   font-weight: 600;
 }
 
+/* Callout box */
+.callout {
+  background: var(--gray-100);
+  border-left: 4px solid var(--accent);
+  padding: 1.25rem 1.5rem;
+  border-radius: var(--radius-md);
+  margin: 1.5rem 0;
+}
+.callout p {
+  margin-bottom: 0;
+  color: var(--navy);
+  font-weight: 500;
+}
+
+/* Article table */
+.blog-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.95rem;
+}
+.blog-content th {
+  background: var(--navy);
+  color: var(--white);
+  text-align: left;
+  padding: 0.75rem 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+}
+.blog-content td {
+  border-bottom: 1px solid var(--gray-200);
+  padding: 0.75rem 1rem;
+  color: var(--gray-700);
+}
+.blog-content tr:nth-child(even) {
+  background: var(--gray-50);
+}
+
+/* Article CTA */
+.article-cta {
+  background: linear-gradient(135deg, var(--navy), var(--navy-mid));
+  color: var(--white);
+  padding: 2rem;
+  border-radius: var(--radius-lg);
+  margin-top: 2rem;
+  text-align: center;
+}
+.article-cta h3 {
+  color: var(--white);
+  margin-top: 0;
+  font-size: 1.25rem;
+}
+.article-cta p {
+  color: rgba(255,255,255,0.8);
+}
+.article-cta a {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.75rem 1.5rem;
+  background: var(--accent);
+  color: var(--white);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.article-cta a:hover {
+  background: var(--accent-lt);
+}
+
 /* ─── RESPONSIVE ─────────────────────────────────────────── */
 @media (max-width: 640px) {
   .stats-grid { grid-template-columns: 1fr; }

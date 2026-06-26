@@ -29,13 +29,9 @@ export default function BlogPost({ params }: { params: { slug: string } }) {
   const post = getBlogPostBySlug(params.slug)
   if (!post) notFound()
 
-  // Simple renderer - just handle paragraphs
+  // Render content with classes
   const renderMarkdown = (content: string) => {
-    return content
-      .split('\n\n')
-      .filter(p => p.trim())
-      .map(p => `<p>${p.trim()}</p>`)
-      .join('')
+    return `<div class="blog-content">${content}</div>`
   }
 
   const jsonLd = {
