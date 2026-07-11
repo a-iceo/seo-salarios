@@ -8,7 +8,7 @@
 import { MetadataRoute } from 'next';
 import { SUPPORTED_LANGS, PROFESSIONS, CITIES, EXPERIENCE_LEVELS } from '../lib/config';
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://salaryglobal.io';
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://seo-salarios.vercel.app';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const urls: MetadataRoute.Sitemap = [];
