@@ -358,6 +358,11 @@ export default function SalaryPage({ params }: PageProps) {
                 ))}
               </div>
 
+              {/* Mondiad — Native ad (in-content) */}
+              <div style={{ margin: 'var(--gap) 0' }}>
+                <div data-mndazid="dd21d946-0fd6-46a1-9143-08cc249a3334"></div>
+              </div>
+
               {/* Comparison by Experience */}
               <div className="card" style={{ marginTop: 'var(--gap)' }}>
                 <p className="card-title">{ui.experienceLabel} — {profName} {lang === 'es' ? 'en' : 'in'} {cityName}</p>
@@ -445,6 +450,11 @@ export default function SalaryPage({ params }: PageProps) {
 
             {/* ─── SIDEBAR ─────────────────────────────── */}
             <aside className="sidebar">
+
+              {/* Mondiad — Banner ad */}
+              <div className="card" style={{ padding: '.5rem', display: 'flex', justifyContent: 'center' }}>
+                <div data-mndbanid="d8b41c48-5299-4215-b8bf-31078c729989"></div>
+              </div>
 
               {/* Purchasing Power Card */}
               <div className="card">
