@@ -11,6 +11,7 @@ import {
   CITIES,
   EXPERIENCE_LEVELS,
   UI_STRINGS,
+  CURRENCY_FX,
   calculateSalaryData,
   type Lang,
 } from '../../../lib/config';
@@ -119,6 +120,19 @@ export async function generateStaticParams() {
   return params;
 }
 
+// ─── FORMATEO DE NÚMEROS (declarada arriba, hoisted) ─────
+function formatCurrency(amount: number, currency: string, lang: string): string {
+  try {
+    return new Intl.NumberFormat(lang, {
+      style: 'currency',
+      currency,
+      maximumFractionDigits: 0,
+    }).format(amount);
+  } catch {
+    return `${amount.toLocaleString()} ${currency}`;
+  }
+}
+
 // ─── METADATA DINÁMICA ────────────────────────────────────
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { lang, slug } = params;
@@ -137,14 +151,21 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const cityName = data.city.names[validLang];
   const year = new Date().getFullYear();
 
+  // Cifra de sueldo en moneda local, para mostrar el número real en el title/description
+  const fx = CURRENCY_FX[data.currency] || 1;
+  const localAnnual = Math.round(data.annualSalaryUSD * fx);
+  const salaryFormatted = formatCurrency(localAnnual, data.currency, validLang);
+
   const title = ui.metaTitle
     .replace('{profession}', profName)
     .replace('{city}', cityName)
+    .replace('{salary}', salaryFormatted)
     .replace('{year}', String(year));
 
   const description = ui.metaDesc
     .replace('{profession}', profName)
     .replace('{city}', cityName)
+    .replace('{salary}', salaryFormatted)
     .replace('{year}', String(year));
 
   const canonical = `${process.env.NEXT_PUBLIC_BASE_URL || 'https://salaryglobal.io'}/${lang}/${slug.join('/')}`;
@@ -165,19 +186,6 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       type: 'website',
     },
   };
-}
-
-// ─── FORMATEO DE NÚMEROS ──────────────────────────────────
-function formatCurrency(amount: number, currency: string, lang: string): string {
-  try {
-    return new Intl.NumberFormat(lang, {
-      style: 'currency',
-      currency,
-      maximumFractionDigits: 0,
-    }).format(amount);
-  } catch {
-    return `${amount.toLocaleString()} ${currency}`;
-  }
 }
 
 // ─── COMPONENTE PRINCIPAL ─────────────────────────────────
@@ -201,12 +209,8 @@ export default function SalaryPage({ params }: PageProps) {
   // Obtener contenido generado (si existe)
   const pageContent = getPageContent(validLang, professionSlug!, citySlug!);
 
-  // Multiplicador local de moneda (aproximado)
-  const currencyMultipliers: Record<string, number> = {
-    USD: 1, EUR: 0.92, GBP: 0.79, JPY: 149, AED: 3.67,
-    SGD: 1.34, CAD: 1.36, AUD: 1.55, BRL: 4.97, INR: 83,
-    MXN: 17.1, CNY: 7.25, RUB: 88, ARS: 900,
-  };
+  // Multiplicador local de moneda (compartido con generateMetadata vía CURRENCY_FX)
+  const currencyMultipliers = CURRENCY_FX;
   const fx = currencyMultipliers[data.currency] || 1;
 
   const localAnnual = Math.round(data.annualSalaryUSD * fx);
