@@ -54,6 +54,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script async src="https://ss.mrmnd.com/native.js"></script>
         {/* Mondiad — Banner ad zone (id 81953) */}
         <script async src="https://ss.mrmnd.com/banner.js"></script>
+
+        {/* Monetag — Popunder (zone 11794988) */}
+        <Script
+          id="monetag-popunder"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `(function(s){s.dataset.zone='11794988',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))`,
+          }}
+        />
       </head>
 
       <body>
