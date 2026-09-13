@@ -206,8 +206,9 @@ export default function SalaryPage({ params }: PageProps) {
   const expName = data.experience.names[validLang];
   const year = new Date().getFullYear();
 
-  // Obtener contenido generado (si existe)
-  const pageContent = getPageContent(validLang, professionSlug!, citySlug!);
+  // Obtener contenido generado (si existe) — variante por nivel de experiencia,
+  // con fallback al artículo base mientras se generan las variantes
+  const pageContent = getPageContent(validLang, professionSlug!, citySlug!, experienceSlug);
 
   // Multiplicador local de moneda (compartido con generateMetadata vía CURRENCY_FX)
   const currencyMultipliers = CURRENCY_FX;
