@@ -72,6 +72,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             __html: `(function(s){s.dataset.zone='11794993',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))`,
           }}
         />
+
+        {/* Monetag — Multitag (zone 280169) */}
+        <script src="https://quge5.com/88/tag.min.js" data-zone="280169" async data-cfasync="false"></script>
       </head>
 
       <body>
