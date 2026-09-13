@@ -48,6 +48,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap"
           rel="stylesheet"
         />
+
+        {/* Mondiad — Native ad zone (id 81954) */}
+        <script async src="https://ss.mrmnd.com/native.js"></script>
+        {/* Mondiad — Banner ad zone (id 81953) */}
+        <script async src="https://ss.mrmnd.com/banner.js"></script>
       </head>
 
       <body>
