@@ -22,7 +22,6 @@ export const metadata: Metadata = {
     google: 'bYtU1NUr1KSo1e0UBMcxEKNFAY9YqmgVFlWWg05kxF0',
   },
   other: {
-    'google-adsense-account': 'ca-pub-9493845506774755',
     'mnd-ver': 'cu0wkpmrcrd4dmqrq6da1g',
   },
   openGraph: {
